@@ -126,7 +126,8 @@ export function authMsg(e) {
     'auth/operation-not-allowed': 'Este tipo de login ainda não foi ativado no Firebase.',
     'auth/network-request-failed': 'Sem conexão. Verifique sua internet.'
   };
-  return m[e?.code] || 'Não foi possível concluir. Tente novamente.';
+  if (!m[e?.code]) console.warn('Erro de login:', e);
+  return m[e?.code] || ('Não foi possível concluir. Tente novamente.' + (e?.code ? ' (' + e.code + ')' : ''));
 }
 export const esc = t => String(t ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
