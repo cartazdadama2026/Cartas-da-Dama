@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Preços — painel do administrador · Cartas da Dama</title>
+<script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-[#1f070e] text-rose-50 min-h-screen p-5">
+<main class="max-w-xl mx-auto">
+  <nav class="mb-8 pb-5 border-b border-[#d9b45f]/20">
+  <div class="flex flex-nowrap items-center gap-1.5 text-[13px] whitespace-nowrap overflow-x-auto pb-1 [scrollbar-width:none]">
+    <a href="index.html" class="group shrink-0 inline-flex items-center gap-1.5 pl-1 pr-3 py-1 rounded-full bg-gradient-to-r from-[#531326] to-[#3a0d1a] border border-[#d9b45f]/40 text-[#ecd49a] font-semibold text-sm shadow-lg shadow-black/40 hover:border-[#d9b45f] hover:from-[#6e1a33] transition"><span class="w-6 h-6 rounded-full bg-[#d9b45f] text-[#1f070e] flex items-center justify-center group-hover:-translate-x-0.5 transition">←</span>Voltar</a>
+    <a href="pedidos.html" class="shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-[#d9b45f]/25 text-rose-100/80 hover:border-[#d9b45f]/70 hover:bg-[#d9b45f]/10 hover:text-[#ecd49a] transition"><span>🛍️</span>Pedidos</a>
+    <span aria-current="page" class="shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#d9b45f] text-[#1f070e] font-bold shadow-lg shadow-[#d9b45f]/20"><span>💲</span>Preços</span>
+    <a href="clientes.html" class="shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-[#d9b45f]/25 text-rose-100/80 hover:border-[#d9b45f]/70 hover:bg-[#d9b45f]/10 hover:text-[#ecd49a] transition"><span>👥</span>Clientes</a>
+    <a href="admin.html" class="shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-[#d9b45f]/25 text-rose-100/80 hover:border-[#d9b45f]/70 hover:bg-[#d9b45f]/10 hover:text-[#ecd49a] transition"><span>📝</span>Depoimentos</a>
+  </div>
+  </nav>
+  <h1 class="text-2xl font-bold text-[#d9b45f]">Preços e leitura de Tarô</h1>
+  <p id="gate" class="mt-6 text-rose-100/70">Verificando acesso…</p>
+
+  <section id="panel" class="hidden">
+    <p class="text-sm text-rose-100/60 mt-1">Defina os valores. A mudança aparece no site na hora. Se escrever uma mensagem (ex.: “Sem estoque”), ela aparece no lugar do preço e o botão Comprar fica desativado. Deixe em branco para mostrar o preço. Camisetas e canecas valem por unidade, para todas as estampas.</p>
+    <form id="form" class="mt-6 bg-[#3a0d1a] border border-[#d9b45f]/30 rounded-2xl p-5 space-y-5">
+      <label class="block">
+        <span class="text-sm text-rose-100/80">Camisetas (R$ por unidade)</span>
+        <input id="camiseta" inputmode="decimal" placeholder="52,00" class="mt-1 w-full rounded-lg bg-[#1f070e] border border-[#d9b45f]/30 px-3 py-2 text-lg">
+        <input id="avisoCamiseta" maxlength="80" placeholder="Mensagem no lugar do preço (opcional). Ex.: Sem estoque no momento" class="mt-2 w-full rounded-lg bg-[#1f070e] border border-[#d9b45f]/20 px-3 py-2 text-sm placeholder:text-rose-100/30">
+      </label>
+      <label class="block">
+        <span class="text-sm text-rose-100/80">Canecas (R$ por unidade)</span>
+        <input id="caneca" inputmode="decimal" placeholder="35,00" class="mt-1 w-full rounded-lg bg-[#1f070e] border border-[#d9b45f]/30 px-3 py-2 text-lg">
+        <input id="avisoCaneca" maxlength="80" placeholder="Mensagem no lugar do preço (opcional). Ex.: Sem estoque no momento" class="mt-2 w-full rounded-lg bg-[#1f070e] border border-[#d9b45f]/20 px-3 py-2 text-sm placeholder:text-rose-100/30">
+      </label>
+      <hr class="border-[#d9b45f]/20">
+      <label class="block">
+        <span class="text-sm text-rose-100/80">Leitura de Cartas e Tarô — valor (R$)</span>
+        <input id="leitura" inputmode="decimal" placeholder="142,00" class="mt-1 w-full rounded-lg bg-[#1f070e] border border-[#d9b45f]/30 px-3 py-2 text-lg">
+        <input id="avisoLeitura" maxlength="80" placeholder="Mensagem no lugar do preço (opcional). Ex.: Sem estoque no momento" class="mt-2 w-full rounded-lg bg-[#1f070e] border border-[#d9b45f]/20 px-3 py-2 text-sm placeholder:text-rose-100/30">
+      </label>
+      <label class="block">
+        <span class="text-sm text-rose-100/80">Leitura de Cartas e Tarô — duração (minutos)</span>
+        <input id="leituraMinutos" inputmode="numeric" placeholder="60" class="mt-1 w-full rounded-lg bg-[#1f070e] border border-[#d9b45f]/30 px-3 py-2 text-lg">
+      </label>
+      <button id="submit" class="bg-[#d9b45f] text-[#1f070e] font-bold px-6 py-2 rounded-full hover:bg-[#ecd49a] disabled:opacity-60">Salvar preços</button>
+      <span id="msg" class="ml-3 text-sm"></span>
+    </form>
+    <p class="mt-4 text-xs text-rose-100/50">Pedidos já feitos mantêm o valor da época. Só os novos pedidos usam o preço atualizado.</p>
+  </section>
+</main>
+
+<script type="module">
+import { configured, onUser, watchPrices, savePrices } from './firebase.js';
+const $ = id => document.getElementById(id);
+const msg = (t, ok = true) => { $('msg').textContent = t; $('msg').className = 'ml-3 text-sm ' + (ok ? 'text-emerald-400' : 'text-red-400'); };
+const fmt = v => Number(v).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const parse = t => { const n = Number(String(t).trim().replace(/\./g, '').replace(',', '.')); return Number.isFinite(n) ? Math.round(n * 100) / 100 : NaN; };
+let loaded = false;
+
+onUser(state => {
+  if (!configured) { $('gate').textContent = 'O Firebase ainda não foi configurado (veja FIREBASE-SETUP.md).'; return; }
+  if (!state) { $('gate').innerHTML = 'Você precisa entrar para acessar. <a class="text-[#d9b45f] underline" href="index.html">Ir para o site e clicar em 🧙‍♀️ Entrar</a>.'; return; }
+  if (state.profile.role !== 'admin') { $('gate').textContent = 'Acesso restrito a administradores.'; return; }
+  $('gate').classList.add('hidden'); $('panel').classList.remove('hidden');
+  watchPrices(p => {
+    if (loaded) return;                      // preenche só na 1ª vez, para não apagar o que a pessoa está digitando
+    loaded = true;
+    $('camiseta').value = fmt(p && p.camiseta ? p.camiseta : 52);
+    $('caneca').value = fmt(p && p.caneca ? p.caneca : 35);
+    $('leitura').value = fmt(p && p.leitura ? p.leitura : 142);
+    $('leituraMinutos').value = p && p.leituraMinutos ? p.leituraMinutos : 60;
+    $('avisoCamiseta').value = (p && p.avisoCamiseta) || ''; $('avisoCaneca').value = (p && p.avisoCaneca) || ''; $('avisoLeitura').value = (p && p.avisoLeitura) || '';
+  }, err => { $('gate').classList.remove('hidden'); $('gate').textContent = 'Erro ao carregar os preços: ' + err.message; });
+});
+
+$('form').addEventListener('submit', async e => {
+  e.preventDefault();
+  const camiseta = parse($('camiseta').value), caneca = parse($('caneca').value), leitura = parse($('leitura').value);
+  const leituraMinutos = Math.round(Number(String($('leituraMinutos').value).replace(',', '.')));
+  if (![camiseta, caneca, leitura].every(v => v > 0 && v <= 10000)) return msg('Digite valores válidos, maiores que zero (ex.: 52,00).', false);
+  if (!(leituraMinutos >= 5 && leituraMinutos <= 600)) return msg('A duração da leitura deve ficar entre 5 e 600 minutos.', false);
+  $('submit').disabled = true; msg('Salvando…');
+  try {
+    await savePrices({ camiseta, caneca, leitura, leituraMinutos, avisoCamiseta: $('avisoCamiseta').value.trim(), avisoCaneca: $('avisoCaneca').value.trim(), avisoLeitura: $('avisoLeitura').value.trim() });
+    $('camiseta').value = fmt(camiseta); $('caneca').value = fmt(caneca); $('leitura').value = fmt(leitura); $('leituraMinutos').value = leituraMinutos;
+    msg('Preços salvos ✓ Já valem no site.');
+  } catch (err) {
+    msg(err.code === 'permission-denied' ? 'Sem permissão. Publique as regras novas no Firebase e confirme que esta conta é admin.' : (err.message || 'Erro ao salvar'), false);
+  } finally { $('submit').disabled = false; }
+});
+</script>
+</body>
+</html>

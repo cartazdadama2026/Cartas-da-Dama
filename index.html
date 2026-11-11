@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cartas da Dama — Onde o mistério encontra o cuidado</title>
+<meta name="description" content="Leituras de Tarô, magia natural e produtos artesanais para momentos de conexão e autocuidado.">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,700;1,500&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<script>
+tailwind.config = {
+  theme: { extend: {
+    colors: {
+      wine: { 950: '#1f070e', 900: '#3a0d1a', 800: '#531326', 700: '#6e1a33' },
+      gold: { 300: '#ecd49a', 400: '#d9b45f', 500: '#c39a3c' },
+      olive: { 400: '#8a9a5b', 500: '#6b7a3f', 600: '#556032' }
+    },
+    fontFamily: { serif: ['"Cormorant Garamond"', 'serif'], sans: ['Lato', 'sans-serif'] }
+  } }
+}
+</script>
+<style>
+  html { scroll-behavior: smooth; }
+  body { background: #1f070e; }
+  .glow { box-shadow: 0 0 40px rgba(217,180,95,.18); }
+  .card { background: linear-gradient(160deg, rgba(83,19,38,.75), rgba(31,7,14,.9)); border: 1px solid rgba(217,180,95,.25); }
+  .stars { background-image: radial-gradient(1.5px 1.5px at 20% 30%, #d9b45f 50%, transparent 51%),
+    radial-gradient(1px 1px at 70% 20%, #ecd49a 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 85% 70%, #d9b45f 50%, transparent 51%),
+    radial-gradient(1px 1px at 40% 80%, #ecd49a 50%, transparent 51%),
+    radial-gradient(1px 1px at 10% 65%, #d9b45f 50%, transparent 51%); }
+  .watermark { opacity: .12; mix-blend-mode: screen; mask-image: radial-gradient(circle, #000 45%, transparent 75%); -webkit-mask-image: radial-gradient(circle, #000 45%, transparent 75%); }
+  .reveal { opacity: 0; transform: translateY(20px); transition: all .8s ease; }
+  .reveal.show { opacity: 1; transform: none; }
+</style>
+</head>
+<body class="font-sans text-rose-50 antialiased">
+
+
+<!-- NAVBAR -->
+<header class="fixed top-0 inset-x-0 z-40 bg-wine-950/90 backdrop-blur border-b border-gold-400/20">
+  <nav class="max-w-6xl mx-auto px-5 py-3 flex items-center justify-between">
+    <a href="#inicio" class="flex items-center gap-2">
+      <svg viewBox="0 0 48 48" class="w-9 h-9" fill="none">
+        <path d="M32 6a18 18 0 1 0 0 36 14 14 0 1 1 0-36z" fill="#d9b45f"/>
+        <path d="M14 40c-4-6-4-12 0-18M14 40c2-4 6-6 8-6" stroke="#6b7a3f" stroke-width="1.5" stroke-linecap="round"/>
+        <path d="M38 10l1 2.5 2.5 1-2.5 1-1 2.5-1-2.5-2.5-1 2.5-1z" fill="#ecd49a"/>
+      </svg>
+      <span class="font-serif text-2xl font-bold text-gold-400 tracking-wide">Cartas da Dama</span>
+    </a>
+    <div class="hidden md:flex items-center gap-7 text-sm">
+      <a href="#leituras" class="hover:text-gold-400">Leituras</a>
+      <a href="#produtos" class="hover:text-gold-400">Produtos</a>
+      <a href="#apresentacao" class="hover:text-gold-400">Apresentação</a>
+      <a href="#depoimentos" class="hover:text-gold-400">Depoimentos</a>
+      <a href="#contato" class="hover:text-gold-400">Contato</a>
+      <a href="#leituras" class="bg-gold-400 text-wine-950 font-bold px-5 py-2 rounded-full hover:bg-gold-300 transition">Agendar Consulta</a>
+      <button type="button" class="js-login flex items-center gap-1.5 border border-gold-400/60 text-gold-300 px-4 py-2 rounded-full hover:bg-gold-400/10 transition" title="Entrar ou criar conta">🧙‍♀️ <span>Entrar</span></button>
+    </div>
+    <button id="menuBtn" class="md:hidden text-gold-400" aria-label="Menu"><i data-lucide="menu"></i></button>
+  </nav>
+  <div id="mobileMenu" class="hidden md:hidden px-5 pb-4 flex-col gap-3 text-sm">
+    <a href="#leituras" class="block py-1">Leituras</a>
+    <a href="#produtos" class="block py-1">Produtos</a>
+    <a href="#apresentacao" class="block py-1">Apresentação</a>
+    <a href="#depoimentos" class="block py-1">Depoimentos</a>
+    <a href="#contato" class="block py-1">Contato</a>
+    <button type="button" class="js-login flex items-center gap-1.5 py-1 text-gold-300">🧙‍♀️ <span>Entrar</span></button>
+  </div>
+</header>
+
+<main>
+<!-- HERO -->
+<section id="inicio" class="stars relative min-h-screen flex items-center justify-center text-center px-5 pt-24 pb-16 bg-gradient-to-b from-wine-900 via-wine-950 to-wine-950">
+  <img src="images/marca.png" alt="" aria-hidden="true" class="watermark absolute inset-0 m-auto h-full max-h-[900px] w-auto max-w-full object-contain pointer-events-none select-none">
+  <div class="max-w-3xl reveal relative z-10">
+    <i data-lucide="moon" class="w-14 h-14 text-gold-400 mx-auto mb-5"></i>
+    <p class="text-olive-400 tracking-[.3em] uppercase text-xs mb-4">Cartas da Dama</p>
+    <h1 class="font-serif text-5xl md:text-7xl font-bold text-gold-400 leading-tight">Sua energia é bem-vinda aqui, sempre</h1>
+    <p class="mt-6 text-xl font-serif italic text-rose-100/90">Cada tiragem é realizada com respeito, sigilo e dedicação.</p>
+    <p class="mt-4 text-rose-100/80">Se você já é cliente, agradeço por continuar confiando no meu trabalho. E, se está chegando agora, espero que este seja um espaço onde você se sinta acolhido para buscar compreensão e direcionamento.</p>
+    <p class="mt-4 text-rose-100/70">Quer acompanhar conteúdos sobre espiritualidade, novidades e informações sobre os atendimentos? Me acompanhe nas redes e fique por perto.</p>
+    <div class="mt-9 flex flex-wrap gap-4 justify-center">
+      <a href="#produtos" class="border border-gold-400 text-gold-400 px-8 py-3 rounded-full hover:bg-gold-400 hover:text-wine-950 transition">Ver Produtos</a>
+      <a href="#leituras" class="bg-gold-400 text-wine-950 font-bold px-8 py-3 rounded-full hover:bg-gold-300 transition glow">Agendar Tarô</a>
+    </div>
+  </div>
+</section>
+
+<!-- LEITURAS -->
+<section id="leituras" class="py-24 px-5 bg-wine-950">
+  <div class="max-w-4xl mx-auto text-center reveal">
+    <h2 class="font-serif text-4xl md:text-5xl text-gold-400">🔮 Leituras de Cartas &amp; Tarô</h2>
+    <p class="text-olive-400 mt-2 tracking-widest uppercase text-xs">Atendimento personalizado</p>
+    <div class="mt-12 grid md:grid-cols-5 gap-10 items-center text-left max-w-6xl mx-auto">
+      <div class="md:col-span-3 rounded-3xl overflow-hidden border border-gold-400/30 glow max-w-lg mx-auto md:max-w-none">
+        <img src="images/tarot.jpg" alt="Três cartas de tarô sobre a mesa, com velas, cristais e flores" class="w-full h-auto block">
+      </div>
+      <div class="md:col-span-2 space-y-4 text-rose-100/85">
+        <p>Às vezes, a vida nos coloca diante de encruzilhadas e tudo o que precisamos é de uma pausa para ouvir a voz da nossa própria alma. Se você está passando por um momento de incertezas ou busca respostas para os seus caminhos, o Cartas da Dama está aqui para te receber.</p>
+        <p>Muito além de previsões, o tarô é uma ferramenta de acolhimento espiritual, cuidado e orientação. Em cada consulta, você encontrará um espaço seguro, livre de julgamentos, feito para acalmar a mente e iluminar as suas decisões.</p>
+        <p class="font-serif italic text-xl text-gold-300">Deixe as cartas te guiarem com afeto e sabedoria. Permita-se esse momento de autocuidado e conexão profunda. 🌹</p>
+        <p class="text-olive-400 font-bold">🔮 Agende a sua consulta e sinta o direcionamento que você precisa.</p>
+      </div>
+    </div>
+    <div class="card glow rounded-3xl p-10 mt-10 max-w-xl mx-auto relative">
+      <span class="absolute -top-3 left-1/2 -translate-x-1/2 bg-gold-400 text-wine-950 text-xs font-bold px-4 py-1 rounded-full">Mais procurada</span>
+      <i data-lucide="sparkles" class="w-10 h-10 text-gold-400 mx-auto"></i>
+      <h3 class="font-serif text-3xl mt-3">Leitura de Cartas e Tarô</h3>
+      <p class="text-rose-100/80 mt-3">Uma leitura individual para você olhar para suas questões com um novo ponto de vista através dos símbolos e arquétipos das cartas.</p>
+      <p id="readingPrice" class="font-serif text-6xl text-gold-400 mt-6">R$ 142,00</p>
+      <p class="flex items-center justify-center gap-2 text-rose-100/70 mt-1"><i data-lucide="clock" class="w-4 h-4"></i> <span id="readingDuration">Duração: 60 minutos</span></p>
+      <a href="https://wa.me/5511950211868?text=Ol%C3%A1%21%20Gostaria%20de%20agendar%20uma%20Leitura%20de%20Cartas%20e%20Tar%C3%B4." target="_blank" rel="noopener"
+         class="mt-8 inline-flex items-center gap-2 bg-gold-400 text-wine-950 font-bold px-8 py-3 rounded-full hover:bg-gold-300 transition">
+        <i data-lucide="message-circle" class="w-5 h-5"></i> Agendar pelo WhatsApp</a>
+      <p class="mt-5 text-sm text-rose-100/70">📲 Agendamentos e informações: <strong class="text-gold-300">(11) 95021-1868</strong></p>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUTOS -->
+<section id="produtos" class="py-24 px-5 bg-gradient-to-b from-wine-950 to-wine-900">
+  <div class="max-w-6xl mx-auto">
+    <div class="text-center reveal">
+      <h2 class="font-serif text-4xl md:text-5xl text-gold-400">🌿 Produtos Cartas da Dama</h2>
+      <p class="mt-3 text-rose-100/80 max-w-2xl mx-auto">Uma coleção criada com inspiração na natureza, nas ervas, nas flores e no universo místico.</p>
+    </div>
+    <div id="productGrid" class="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 max-w-5xl mx-auto"></div>
+  </div>
+</section>
+
+<!-- APRESENTAÇÃO -->
+<section id="apresentacao" class="py-24 px-5 bg-wine-900">
+  <div class="max-w-5xl mx-auto grid md:grid-cols-5 gap-12 items-center reveal">
+    <div class="md:col-span-2 flex justify-center">
+      <div class="w-64 h-64 md:w-72 md:h-72 rounded-full p-1.5 bg-gradient-to-br from-gold-300 to-gold-500 glow">
+        <div class="w-full h-full rounded-full overflow-hidden bg-wine-800 flex items-center justify-center">
+          <!-- Coloque a foto da Dennise em images/dennise.jpg -->
+          <img src="images/dennise.jpg" alt="Dennise, criadora do Cartas da Dama" class="w-full h-full object-cover"
+               onerror="this.remove();this.parentNode.innerHTML='<i data-lucide=moon class=\'w-20 h-20 text-gold-400\'></i>';lucide.createIcons();">
+        </div>
+      </div>
+    </div>
+    <div class="md:col-span-3">
+      <h2 class="font-serif text-4xl md:text-5xl text-gold-400">✨ Minha Apresentação</h2>
+      <p class="mt-6 font-serif text-2xl text-gold-300">Seja muito bem-vinda(o) ao Cartas da Dama!</p>
+      <p class="mt-4 text-rose-100/80">Este perfil nasceu do desejo de criar um verdadeiro oásis de acolhimento, cura e direcionamento para a sua alma em meio à correria do dia a dia. Acreditamos que a espiritualidade não precisa ser complexa ou distante — ela se manifesta nas pequenas pausas, nas respostas que o universo nos traz e no cuidado com a nossa energia.</p>
+      <ul class="mt-5 space-y-4">
+        <li class="flex gap-3"><i data-lucide="leaf" class="w-6 h-6 text-gold-400 shrink-0 mt-0.5"></i><p class="text-rose-100/80"><strong class="text-gold-300">Banhos de ervas e óleos fitoenergéticos:</strong> criados artesanalmente com a sabedoria da terra para limpar, proteger e atrair boas vibrações.</p></li>
+        <li class="flex gap-3"><i data-lucide="flame" class="w-6 h-6 text-gold-400 shrink-0 mt-0.5"></i><p class="text-rose-100/80"><strong class="text-gold-300">Velas aromáticas:</strong> feitas para iluminar as suas intenções, rituais pessoais ou simplesmente trazer paz para o seu lar.</p></li>
+        <li class="flex gap-3"><i data-lucide="layers" class="w-6 h-6 text-gold-400 shrink-0 mt-0.5"></i><p class="text-rose-100/80"><strong class="text-gold-300">Leituras de Tarô e Cartas:</strong> um espaço sagrado de escuta e acolhimento para trazer clareza, respostas e guiar os seus próximos passos com leveza.</p></li>
+      </ul>
+      <p class="mt-5 text-olive-400 italic font-serif text-xl">Independentemente do momento que você esteja vivendo, saiba que este é um espaço seguro, livre de julgamentos e cheio de afeto.</p>
+      <p class="mt-4 text-rose-100/80">Fique à vontade para puxar uma cadeira, tomar um chá e acompanhar nossos conteúdos diários sobre magia natural, intuição e autocuidado espiritual.</p>
+      <div class="mt-6 card rounded-2xl p-5">
+        <p class="font-serif text-xl text-gold-300">Gostaria de agendar uma consulta ou conhecer nossos produtos?</p>
+        <p class="text-sm text-rose-100/70 mt-1">É só tocar no botão e falar diretamente comigo no WhatsApp.</p>
+        <a href="https://wa.me/5511950211868" target="_blank" rel="noopener" class="mt-4 inline-flex items-center gap-2 bg-gold-400 text-wine-950 font-bold px-7 py-3 rounded-full hover:bg-gold-300 transition">
+          <i data-lucide="message-circle" class="w-5 h-5"></i> (11) 95021-1868</a>
+      </div>
+      <div class="mt-6 flex flex-wrap items-center gap-x-10 gap-y-5">
+        <div>
+          <p class="font-serif text-xl text-rose-100/80">Com amor e luz,</p>
+          <p class="font-serif italic text-4xl text-gold-400">A Dama.</p>
+        </div>
+        <div class="text-center">
+          <p class="inline-block border border-gold-400/60 bg-wine-800/70 text-gold-300 font-serif text-lg sm:text-2xl px-4 sm:px-8 py-2 rounded-lg">✦ Volte sempre que precisar. ✦</p>
+          <p class="mt-3 text-sm text-rose-100/70">Obrigada por confiar em meu trabalho.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DEPOIMENTOS -->
+<section id="depoimentos" class="py-24 px-5 bg-wine-950">
+  <div class="max-w-6xl mx-auto">
+    <h2 class="font-serif text-4xl md:text-5xl text-gold-400 text-center reveal">Palavras de quem já viveu</h2>
+    <p class="text-center text-rose-100/70 mt-3">Conversas reais de quem já viveu a experiência.</p>
+    <div class="text-center mt-5"><a id="addTestimonialBtn" href="admin.html" class="hidden inline-flex items-center gap-2 bg-gold-400 text-wine-950 font-bold px-6 py-2.5 rounded-full hover:bg-gold-300 transition"><i data-lucide="plus" class="w-4 h-4"></i> Adicionar depoimento</a></div>
+    <div id="testimonials" class="mt-12 columns-1 sm:columns-2 lg:columns-3 gap-6"></div>
+    <p id="noTestimonials" class="hidden text-center text-rose-100/50 mt-8">Em breve, novos depoimentos por aqui. 🌿</p>
+  </div>
+</section>
+
+<!-- CONTATO -->
+<section id="contato" class="py-24 px-5 bg-gradient-to-b from-wine-950 to-wine-900">
+  <div class="max-w-xl mx-auto text-center reveal">
+    <h2 class="font-serif text-4xl text-gold-400">Fale comigo</h2>
+    <p class="mt-3 text-rose-100/80">Conte o que você procura e eu respondo pelo WhatsApp.</p>
+    <form id="contactForm" class="mt-8 space-y-4 text-left">
+      <input required name="nome" placeholder="Seu nome" class="w-full rounded-xl bg-wine-950/70 border border-gold-400/30 px-4 py-3 focus:outline-none focus:border-gold-400">
+      <textarea required name="msg" rows="4" placeholder="Sua mensagem" class="w-full rounded-xl bg-wine-950/70 border border-gold-400/30 px-4 py-3 focus:outline-none focus:border-gold-400"></textarea>
+      <button class="w-full bg-gold-400 text-wine-950 font-bold py-3 rounded-full hover:bg-gold-300 transition">Enviar pelo WhatsApp</button>
+    </form>
+  </div>
+</section>
+</main>
+
+<!-- FOOTER -->
+<footer class="bg-wine-950 border-t border-gold-400/20 px-5 py-14">
+  <div class="max-w-6xl mx-auto grid gap-10 md:grid-cols-3 text-center md:text-left">
+    <div>
+      <p class="font-serif text-3xl text-gold-400">🌙 Cartas da Dama</p>
+      <p class="mt-3 text-rose-100/80">Onde cada carta revela uma história e cada ritual guarda uma intenção.</p>
+    </div>
+    <ul class="space-y-2 text-rose-100/80">
+      <li>🔮 Leituras de Tarô</li><li>🌿 Produtos artesanais</li><li>🕯️ Velas e aromas</li><li>🌸 Ervas e flores</li><li>👕 Produtos personalizados</li>
+    </ul>
+    <div class="space-y-3">
+      <p class="text-gold-300">📲 Atendimento e agendamentos</p>
+      <a href="https://wa.me/5511950211868" target="_blank" rel="noopener" class="flex items-center gap-2 justify-center md:justify-start hover:text-gold-400"><i data-lucide="phone" class="w-4 h-4"></i> (11) 95021-1868</a>
+      <a href="mailto:cartasdadama@outlook.com.br" class="flex items-center gap-2 justify-center md:justify-start hover:text-gold-400"><i data-lucide="mail" class="w-4 h-4"></i> cartasdadama@outlook.com.br</a>
+    </div>
+  </div>
+  <p class="text-center text-olive-400 italic font-serif text-lg mt-10">✨ Cartas da Dama — magia natural, cartas e cuidado em cada detalhe.</p>
+  <p class="text-center text-xs text-rose-100/40 mt-4">© <span id="year"></span> Cartas da Dama. Todos os direitos reservados.</p>
+</footer>
+
+<!-- Login (somente Google) -->
+<div id="authModal" class="hidden fixed inset-0 z-50 bg-black/70 items-center justify-center p-5">
+  <div class="card glow rounded-3xl p-7 w-full max-w-sm relative bg-wine-950">
+    <button id="authClose" type="button" class="absolute top-3 right-4 text-2xl text-rose-100/60 hover:text-gold-400" aria-label="Fechar">×</button>
+    <p class="text-center text-4xl">🧙‍♀️</p>
+    <h3 class="font-serif text-3xl text-gold-400 text-center mt-1">Entrar</h3>
+    <p class="text-center text-rose-100/70 text-sm mt-3">Entre com a sua conta Google para fazer pedidos e acompanhar suas compras.</p>
+    <div class="mt-6"></div>
+    <button id="authGoogle" type="button" class="w-full flex items-center justify-center gap-2 bg-white text-stone-800 font-bold py-2.5 rounded-full hover:bg-stone-100 transition">
+      <svg viewBox="0 0 48 48" class="w-5 h-5"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9 3.5l6.7-6.7C35.7 2.4 30.2 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.8 6.1C12.3 13.6 17.7 9.5 24 9.5z"/><path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.7c-.6 3-2.3 5.5-4.8 7.2l7.5 5.8c4.4-4.1 7.1-10.1 7.1-17.5z"/><path fill="#FBBC05" d="M10.4 28.7c-.5-1.4-.8-3-.8-4.7s.3-3.3.8-4.7l-7.8-6.1C.9 16.4 0 20.1 0 24s.9 7.6 2.6 10.8l7.8-6.1z"/><path fill="#34A853" d="M24 48c6.2 0 11.400-2 15.200-5.500l-7.500-5.800c-2 1.400-4.700 2.300-7.700 2.300-6.300 0-11.700-4.200-13.600-9.900l-7.800 6.100C6.500 42.600 14.600 48 24 48z"/></svg>
+      Continuar com Google</button>
+    <p id="authErr" class="text-sm mt-3 min-h-[1.25rem] text-rose-300 text-center"></p>
+  </div>
+</div>
+
+<!-- Menu da conta -->
+<div id="userMenu" class="hidden fixed top-[4.5rem] right-4 z-50 w-72 max-w-[calc(100vw-2rem)] rounded-3xl overflow-hidden border border-gold-400/40 bg-wine-950 shadow-2xl shadow-black/60">
+  <div class="px-5 pt-5 pb-4 bg-gradient-to-br from-wine-800 to-wine-950 text-center border-b border-gold-400/20">
+    <div id="userMenuAvatar" class="w-16 h-16 mx-auto rounded-full bg-gradient-to-br from-gold-300 to-gold-500 text-wine-950 font-serif text-3xl font-bold flex items-center justify-center ring-4 ring-gold-400/20">?</div>
+    <p id="userMenuName" class="font-serif text-xl text-gold-300 mt-3 truncate"></p>
+    <p id="userMenuEmail" class="text-xs text-rose-100/70 break-all mt-0.5"></p>
+    <span id="userMenuRole" class="inline-block mt-2 text-[11px] uppercase tracking-widest font-bold text-olive-400 border border-olive-400/40 rounded-full px-3 py-0.5"></span>
+  </div>
+  <nav class="p-2">
+    <a href="pedidos.html" class="js-admin-only hidden flex items-center gap-3 px-3 py-2.5 rounded-xl text-rose-100/90 hover:bg-gold-400/10 hover:text-gold-300 transition"><span class="w-8 h-8 rounded-lg bg-gold-400/10 flex items-center justify-center">🛍️</span><span class="text-sm">Pedidos</span></a>
+    <a href="precos.html" class="js-admin-only hidden flex items-center gap-3 px-3 py-2.5 rounded-xl text-rose-100/90 hover:bg-gold-400/10 hover:text-gold-300 transition"><span class="w-8 h-8 rounded-lg bg-gold-400/10 flex items-center justify-center">💲</span><span class="text-sm">Preços</span></a>
+    <a href="clientes.html" class="js-admin-only hidden flex items-center gap-3 px-3 py-2.5 rounded-xl text-rose-100/90 hover:bg-gold-400/10 hover:text-gold-300 transition"><span class="w-8 h-8 rounded-lg bg-gold-400/10 flex items-center justify-center">👥</span><span class="text-sm">Painel de clientes</span></a>
+    <a href="admin.html" class="js-admin-only hidden flex items-center gap-3 px-3 py-2.5 rounded-xl text-rose-100/90 hover:bg-gold-400/10 hover:text-gold-300 transition"><span class="w-8 h-8 rounded-lg bg-gold-400/10 flex items-center justify-center">📝</span><span class="text-sm">Painel de depoimentos</span></a>
+  </nav>
+  <div class="p-3 pt-1">
+    <button id="logoutBtn" type="button" class="w-full flex items-center justify-center gap-2 border border-gold-400/40 text-rose-100/80 rounded-full py-2 text-sm hover:bg-gold-400/10 hover:text-gold-300 transition">🚪 Sair</button>
+  </div>
+</div>
+
+<!-- Lightbox dos depoimentos -->
+<div id="lightbox" class="hidden fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-5 cursor-zoom-out">
+  <img id="lightboxImg" alt="" class="max-h-full max-w-full rounded-xl">
+</div>
+
+<!-- Pedido (checkout via WhatsApp) -->
+<div id="orderModal" class="hidden fixed inset-0 z-50 bg-black/75 items-start sm:items-center justify-center p-4 overflow-y-auto">
+  <form id="orderForm" class="card glow rounded-3xl p-6 w-full max-w-lg bg-wine-950 relative my-4" novalidate>
+    <button id="orderClose" type="button" class="absolute top-3 right-4 text-2xl text-rose-100/60 hover:text-gold-400" aria-label="Fechar">×</button>
+    <p class="text-xs tracking-widest uppercase text-olive-400" id="orderKind"></p>
+    <h3 id="orderTitle" class="font-serif text-2xl text-gold-400 mt-1 pr-6"></h3>
+    <p id="orderPrice" class="font-serif text-3xl text-gold-300 mt-1"></p>
+
+    <div id="sizeWrap" class="mt-4">
+      <p class="text-sm text-rose-100/80 mb-2">Tamanho</p>
+      <div id="sizes" class="flex flex-wrap gap-2"></div>
+    </div>
+    <div class="mt-4 flex items-center gap-3">
+      <label for="oQty" class="text-sm text-rose-100/80">Quantidade</label>
+      <input id="oQty" type="number" min="1" max="20" value="1" class="w-20 rounded-xl bg-wine-950/70 border border-gold-400/30 px-3 py-2 focus:outline-none focus:border-gold-400">
+      <span id="orderTotal" class="ml-auto text-sm text-gold-300"></span>
+    </div>
+
+    <p class="text-sm text-rose-100/80 mt-6 mb-2">Seus dados e entrega</p>
+    <div class="grid grid-cols-6 gap-3">
+      <input id="oNome" placeholder="Nome completo" autocomplete="name" class="col-span-6 rounded-xl bg-wine-950/70 border border-gold-400/30 px-3 py-2.5 focus:outline-none focus:border-gold-400">
+      <input id="oTel" placeholder="Seu WhatsApp com DDD" inputmode="tel" autocomplete="tel" class="col-span-6 sm:col-span-3 rounded-xl bg-wine-950/70 border border-gold-400/30 px-3 py-2.5 focus:outline-none focus:border-gold-400">
+      <input id="oCep" placeholder="CEP" inputmode="numeric" maxlength="9" autocomplete="postal-code" class="col-span-6 sm:col-span-3 rounded-xl bg-wine-950/70 border border-gold-400/30 px-3 py-2.5 focus:outline-none focus:border-gold-400">
+      <p id="cepHint" class="text-xs -mt-1 min-h-[1rem]" style="grid-column: 1 / -1" aria-live="polite"></p>
+      <input id="oRua" placeholder="Rua / Avenida" autocomplete="address-line1" class="col-span-4 rounded-xl bg-wine-950/70 border border-gold-400/30 px-3 py-2.5 focus:outline-none focus:border-gold-400">
+      <input id="oNum" placeholder="Nº" class="col-span-2 rounded-xl bg-wine-950/70 border border-gold-400/30 px-3 py-2.5 focus:outline-none focus:border-gold-400">
+      <input id="oComp" placeholder="Complemento (opcional)" class="col-span-6 sm:col-span-3 rounded-xl bg-wine-950/70 border border-gold-400/30 px-3 py-2.5 focus:outline-none focus:border-gold-400">
+      <input id="oBairro" placeholder="Bairro" class="col-span-6 sm:col-span-3 rounded-xl bg-wine-950/70 border border-gold-400/30 px-3 py-2.5 focus:outline-none focus:border-gold-400">
+      <input id="oCidade" placeholder="Cidade" autocomplete="address-level2" class="col-span-4 rounded-xl bg-wine-950/70 border border-gold-400/30 px-3 py-2.5 focus:outline-none focus:border-gold-400">
+      <input id="oUf" placeholder="UF" maxlength="2" autocomplete="address-level1" class="col-span-2 uppercase rounded-xl bg-wine-950/70 border border-gold-400/30 px-3 py-2.5 focus:outline-none focus:border-gold-400">
+      <textarea id="oObs" rows="2" placeholder="Observações (opcional)" class="col-span-6 rounded-xl bg-wine-950/70 border border-gold-400/30 px-3 py-2.5 focus:outline-none focus:border-gold-400"></textarea>
+    </div>
+
+    <p id="orderErr" class="text-sm text-rose-300 mt-3 min-h-[1.25rem]" role="alert"></p>
+    <a id="orderWaLink" href="#" target="_blank" rel="noopener" class="hidden mt-2 w-full text-center bg-olive-500 text-white font-bold py-3 rounded-full hover:bg-olive-400 transition">Toque aqui para abrir o WhatsApp</a>
+    <button id="orderSubmit" class="mt-2 w-full inline-flex items-center justify-center gap-2 bg-gold-400 text-wine-950 font-bold py-3 rounded-full hover:bg-gold-300 transition disabled:opacity-60"><i data-lucide="message-circle" class="w-5 h-5"></i> <span>Ir para o pagamento</span></button>
+    <p class="text-xs text-rose-100/50 mt-3 text-center">Você será levado(a) ao WhatsApp para receber o Pix. Seu pedido e seus dados de entrega ficam registrados para a loja separar e enviar o produto. O CEP é consultado no serviço gratuito ViaCEP para preencher o endereço.</p>
+  </form>
+</div>
+
+<!-- Toast -->
+<div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 bg-gold-400 text-wine-950 font-bold px-6 py-3 rounded-full shadow-xl opacity-0 pointer-events-none transition z-50"></div>
+
+<script>
+const WA = '5511950211868';
+const products = [
+  { icon: 'droplets', title: '🧼 Sabonetes Holísticos', text: 'Sabonetes artesanais com ervas, essências e sais, com apresentação delicada e personalização inspirada na identidade do Cartas da Dama.', tags: ['🌿 Ervas','✨ Essências','🧂 Sais','🌙 Acabamento místico e sofisticado'], img: 'sabonetes.jpg' },
+  { icon: 'flame', title: '🕯️ Vela da Intuição', text: 'Vela artesanal em pote de vidro, com rótulo exclusivo do Cartas da Dama, feita para iluminar as suas intenções, os seus rituais pessoais ou simplesmente trazer paz para o seu lar.', tags: ['🔮 Intuição','🕯️ Pote de vidro','✨ Detalhes dourados','🌙 Atmosfera mística'], img: 'velas.jpg' },
+  { icon: 'flower-2', title: '🌿 Sachês para Banho', text: 'Sachês sofisticados, personalizados com o slogan Cartas da Dama, preparados com combinações de ervas e flores para um ritual de autocuidado.', tags: ['🌿 Alecrim','🌿 Sálvia','💜 Alfazema','🌹 Rosas'], img: 'banhos.jpg' },
+  { icon: 'coffee', title: '🍵 Frutas & Ervas para Chás', text: 'Combinações selecionadas de frutas e ervas desidratadas, em embalagens sofisticadas e alinhadas à identidade visual do Cartas da Dama.', tags: ['🌿 Natural','• delicado','• encantador'], img: 'chas.jpg' },
+  { icon: 'wind', title: '🔥 Incensos', text: 'Incensos para criar uma atmosfera aromática especial, associados a momentos de limpeza simbólica, intenção, contemplação e energização.', tags: ['🌙 Momentos de conexão','🌿 Ambientes acolhedores','✨ Rituais pessoais'], img: 'incensos.jpg' },
+];
+
+const grid = document.getElementById('productGrid');
+products.forEach(p => {
+  const el = document.createElement('article');
+  el.className = 'card rounded-3xl overflow-hidden flex flex-col reveal';
+  // Para usar fotos reais, coloque os arquivos em images/ com os nomes acima.
+  el.innerHTML = `
+    <div class="aspect-[4/3] bg-gradient-to-br from-wine-700 via-wine-800 to-olive-600/60 flex items-center justify-center relative overflow-hidden">
+      <img src="images/${p.img}" alt="${p.title.replace(/^\S+\s/, '')}" class="absolute inset-0 w-full h-full object-cover" onerror="this.remove()"
+           onload="var i=this.parentNode.querySelector('i,svg');if(i)i.remove()">
+      <i data-lucide="${p.icon}" class="w-12 h-12 text-gold-300 opacity-90"></i>
+    </div>
+    <div class="p-5 flex flex-col flex-1">
+      <h3 class="font-serif text-2xl text-gold-400">${p.title}</h3>
+      <p class="mt-3 text-base leading-relaxed text-rose-100/90 flex-1">${p.text}</p>
+      <ul class="mt-4 flex flex-wrap gap-2">${p.tags.map(t => `<li class="text-xs border border-olive-400/50 text-olive-400 rounded-full px-3 py-1">${t}</li>`).join('')}</ul>
+      <a href="https://wa.me/${WA}?text=${encodeURIComponent('Olá! Tenho interesse em: ' + p.title.replace(/^\S+\s/, ''))}" target="_blank" rel="noopener"
+         class="mt-5 text-center bg-gold-400 text-wine-950 font-bold py-2.5 rounded-full hover:bg-gold-300 transition">Quero saber mais</a>
+    </div>`;
+  grid.appendChild(el);
+});
+
+
+// CAMISETAS — 6 estampas
+let SHIRT_PRICE = 52; // valores padrão; o preço real vem do banco (editável em precos.html)
+const SIZES = ['P', 'M', 'G', 'GG'];
+const brl = v => v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+const shirts = [
+  'Sonhe · Manifeste · Realize', 'Equilíbrio é também magia', 'Proteção é amor próprio',
+  'Tarô é a linguagem da alma', 'Conecte-se com a sua essência', 'Ervas · Cristais · Rituais'
+];
+const shirtBlock = document.createElement('article');
+shirtBlock.className = 'card rounded-3xl p-6 md:p-10 reveal md:col-span-2 lg:col-span-3';
+shirtBlock.innerHTML = `
+  <h3 class="font-serif text-3xl md:text-4xl text-gold-400 text-center">👕 Camisetas Cartas da Dama</h3>
+  <p class="mt-3 text-center text-rose-100/80 max-w-2xl mx-auto">Camisetas com desenhos e frases holísticas personalizados, inspiradas no universo das bruxas, estrelas, luas, símbolos místicos e elementos naturais.</p>
+  <ul class="mt-4 flex flex-wrap gap-2 justify-center">${['🌙 Luas','⭐ Estrelas','🧙‍♀️ Bruxas','🌿 Elementos naturais','✨ Frases holísticas'].map(t => `<li class="text-xs border border-olive-400/50 text-olive-400 rounded-full px-3 py-1">${t}</li>`).join('')}</ul>
+  <div class="mt-10 grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+    ${shirts.map((name, i) => `
+      <div class="flex flex-col items-center">
+        <div class="w-full max-w-[300px] rounded-2xl overflow-hidden border border-gold-400/25 shadow-[0_14px_30px_rgba(0,0,0,.55)]">
+          <img src="images/camiseta-modelo-${i + 1}.jpg" alt="Camiseta ${name}" width="604" height="751" loading="lazy" class="block w-full h-auto">
+        </div>
+        <p class="mt-3 font-serif text-lg text-gold-300 text-center">${name}</p>
+        <p class="js-price font-serif text-3xl text-gold-400 mt-1" data-kind="camiseta">${brl(SHIRT_PRICE)}</p>
+        <p class="text-xs text-rose-100/60 flex items-center gap-1.5 mt-1"><i data-lucide="qr-code" class="w-3.5 h-3.5"></i> Pagamento via Pix</p>
+        <button type="button" data-kind="camiseta" data-i="${i}"
+           class="js-buy mt-3 inline-flex items-center gap-2 bg-gold-400 text-wine-950 font-bold px-7 py-2.5 rounded-full hover:bg-gold-300 transition text-sm"><i data-lucide="shopping-bag" class="w-4 h-4"></i> Comprar</button>
+      </div>`).join('')}
+  </div>
+  <div class="mt-10 border-t border-gold-400/20 pt-6 text-center">
+    <p class="text-gold-300 font-serif text-xl">Como funciona o pagamento</p>
+    <p class="text-sm text-rose-100/70 mt-1 max-w-xl mx-auto">Escolha o produto, preencha seus dados e clique em <strong>Ir para o pagamento</strong>. Você será levado(a) ao WhatsApp, onde enviaremos o <strong>Pix</strong> para pagar. Depois, é só mandar o comprovante.</p>
+  </div>`;
+grid.appendChild(shirtBlock);
+
+// CANECAS — mesmas 6 estampas
+let MUG_PRICE = 35;
+const mugBlock = document.createElement('article');
+mugBlock.className = 'card rounded-3xl p-6 md:p-10 reveal md:col-span-2 lg:col-span-3';
+mugBlock.innerHTML = `
+  <h3 class="font-serif text-3xl md:text-4xl text-gold-400 text-center">☕ Canecas Cartas da Dama</h3>
+  <p class="mt-3 text-center text-rose-100/80 max-w-2xl mx-auto">Canecas personalizadas com as mesmas estampas místicas das camisetas, perfeitas para o seu chá e para os seus pequenos rituais.</p>
+  <ul class="mt-4 flex flex-wrap gap-2 justify-center">${['🌙 Luas','⭐ Estrelas','🧙‍♀️ Bruxas','🌿 Elementos naturais','✨ Frases holísticas'].map(t => `<li class="text-xs border border-olive-400/50 text-olive-400 rounded-full px-3 py-1">${t}</li>`).join('')}</ul>
+  <div class="mt-10 grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+    ${shirts.map((name, i) => `
+      <div class="flex flex-col items-center">
+        <div class="w-full max-w-[340px] rounded-2xl overflow-hidden border border-gold-400/25 shadow-[0_14px_30px_rgba(0,0,0,.55)]">
+          <img src="images/caneca-modelo-${i + 1}.jpg" alt="Caneca ${name}" width="796" height="708" loading="lazy" class="block w-full h-auto">
+        </div>
+        <p class="mt-3 font-serif text-lg text-gold-300 text-center">${name}</p>
+        <p class="js-price font-serif text-3xl text-gold-400 mt-1" data-kind="caneca">${brl(MUG_PRICE)}</p>
+        <p class="text-xs text-rose-100/60 flex items-center gap-1.5 mt-1"><i data-lucide="qr-code" class="w-3.5 h-3.5"></i> Pagamento via Pix</p>
+        <button type="button" data-kind="caneca" data-i="${i}"
+           class="js-buy mt-3 inline-flex items-center gap-2 bg-gold-400 text-wine-950 font-bold px-7 py-2.5 rounded-full hover:bg-gold-300 transition text-sm"><i data-lucide="shopping-bag" class="w-4 h-4"></i> Comprar</button>
+      </div>`).join('')}
+  </div>`;
+grid.appendChild(mugBlock);
+
+
+// DEPOIMENTOS — fixos em depoimentos.json; os cadastrados pelo admin chegam do Firestore (site-auth.js)
+const esc = t => String(t ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+function renderTestimonials(list) {
+  const box = document.getElementById('testimonials');
+  box.innerHTML = '';
+  document.getElementById('noTestimonials').classList.toggle('hidden', list.length > 0);
+  list.forEach(d => {
+    const el = document.createElement('figure');
+    el.className = 'card rounded-2xl p-4 mb-6 break-inside-avoid';
+    el.innerHTML = `
+      ${d.imagem ? `<img src="${esc(d.imagem)}" alt="Depoimento de ${esc(d.nome || 'cliente')}" loading="lazy" class="w-full rounded-xl cursor-zoom-in">` : ''}
+      ${d.texto ? `<blockquote class="${d.imagem ? 'mt-4' : 'p-3'} text-rose-100/90">“${esc(d.texto)}”</blockquote>` : ''}
+      ${d.nome ? `<figcaption class="mt-3 px-1 text-sm text-olive-400">— ${esc(d.nome)}</figcaption>` : ''}`;
+    box.appendChild(el);
+  });
+}
+window.renderTestimonials = renderTestimonials;
+window.staticTestimonialsReady = (async () => {
+  let list = [];
+  try { list = await (await fetch('depoimentos.json', { cache: 'no-store' })).json(); } catch (e) {}
+  renderTestimonials(list);
+  return list;
+})();
+(function setupLightbox() {
+  const lb = document.getElementById('lightbox'), lbImg = document.getElementById('lightboxImg');
+  document.getElementById('testimonials').addEventListener('click', e => { if (e.target.tagName === 'IMG') { lbImg.src = e.target.src; lb.classList.remove('hidden'); } });
+  lb.addEventListener('click', () => lb.classList.add('hidden'));
+  document.addEventListener('keydown', e => e.key === 'Escape' && lb.classList.add('hidden'));
+})();
+
+
+// Preços vindos do banco (site-auth.js chama esta função quando o admin altera)
+window.setPrices = p => {
+  if (p && p.camiseta > 0) SHIRT_PRICE = Number(p.camiseta);
+  if (p && p.caneca > 0) MUG_PRICE = Number(p.caneca);
+  const aviso = k => ((p && p['aviso' + k]) || '').toString().trim(); // mensagem no lugar do preço (ex.: "Sem estoque")
+  const rp = document.getElementById('readingPrice');
+  const av = aviso('Leitura');
+  if (av) { rp.textContent = av; rp.className = 'font-serif text-3xl sm:text-4xl text-gold-300 mt-6'; }
+  else {
+    rp.className = 'font-serif text-6xl text-gold-400 mt-6';
+    if (p && p.leitura > 0) rp.textContent = brl(Number(p.leitura));
+  }
+  if (p && p.leituraMinutos > 0) { const m = Math.round(p.leituraMinutos); document.getElementById('readingDuration').textContent = 'Duração: ' + (m >= 60 && m % 60 === 0 ? (m / 60) + (m === 60 ? ' hora' : ' horas') + ' (' + m + ' minutos)' : m + ' minutos'); }
+  const msgs = { camiseta: aviso('Camiseta'), caneca: aviso('Caneca') };
+  document.querySelectorAll('.js-price').forEach(el => {
+    const k = el.dataset.kind;
+    el.textContent = msgs[k] || brl(k === 'caneca' ? MUG_PRICE : SHIRT_PRICE);
+    el.classList.toggle('text-3xl', !msgs[k]); el.classList.toggle('text-xl', !!msgs[k]); el.classList.toggle('text-center', !!msgs[k]);
+  });
+  document.querySelectorAll('.js-buy').forEach(b => {
+    const off = !!msgs[b.dataset.kind];
+    b.disabled = off; b.classList.toggle('opacity-40', off); b.classList.toggle('pointer-events-none', off);
+  });
+};
+
+// PEDIDO — tamanho + endereço + redirecionamento ao WhatsApp para receber o Pix
+(function orderFlow() {
+  const $ = id => document.getElementById(id);
+  const modal = $('orderModal'), form = $('orderForm');
+  let product = null, size = '';
+
+  const items = {
+    camiseta: i => ({ kind: 'Camiseta', name: shirts[i], price: SHIRT_PRICE, sized: true }),
+    caneca: i => ({ kind: 'Caneca', name: shirts[i], price: MUG_PRICE, sized: false })
+  };
+  const total = () => product.price ? brl(product.price * (parseInt($('oQty').value, 10) || 1)) : null;
+  const err = t => { $('orderErr').textContent = t; };
+
+  function paintSizes() {
+    $('sizes').innerHTML = SIZES.map(z => `<button type="button" data-size="${z}" class="min-w-[3rem] px-4 py-2 rounded-full border text-sm ${z === size ? 'bg-gold-400 text-wine-950 font-bold border-gold-400' : 'border-gold-400/40 text-rose-100/80 hover:bg-gold-400/10'}">${z}</button>`).join('');
+  }
+  function paintTotal() { $('orderTotal').textContent = total() ? 'Total: ' + total() : ''; }
+
+  function open(kind, i) {
+    product = items[kind](i); size = '';
+    form.reset(); err(''); cepSeq++; auto = {}; $('cepHint').textContent = '';
+    $('orderWaLink').classList.add('hidden'); $('orderSubmit').disabled = false;
+    const prof = window.cartasAuth && window.cartasAuth.profile;
+    if (prof && prof.nome) $('oNome').value = prof.nome;
+    $('orderKind').textContent = product.kind;
+    $('orderTitle').textContent = product.name;
+    $('orderPrice').textContent = product.price ? brl(product.price) : 'Valor a combinar no WhatsApp';
+    $('sizeWrap').classList.toggle('hidden', !product.sized);
+    if (product.sized) paintSizes();
+    paintTotal();
+    modal.classList.remove('hidden'); modal.classList.add('flex');
+    document.body.style.overflow = 'hidden';
+    setTimeout(() => (product.sized ? $('sizes').querySelector('button') : $('oNome')).focus(), 50);
+  }
+  function close() { modal.classList.add('hidden'); modal.classList.remove('flex'); document.body.style.overflow = ''; }
+
+  // Comprar: exige conta. Sem login, abre o login e retoma o pedido depois de entrar.
+  document.addEventListener('click', async e => {
+    const b = e.target.closest('.js-buy');
+    if (!b) return;
+    const A = window.cartasAuth;
+    if (!A) return toast('Carregando… tente de novo em instantes.');
+    if (!A.configured) return toast('Pedidos indisponíveis no momento.');
+    await A.ready;
+    if (b.disabled) return;
+    const kind = b.dataset.kind, i = +b.dataset.i;
+    if (!A.user) return A.openLogin('Entre ou crie sua conta para fazer o pedido.', () => open(kind, i));
+    open(kind, i);
+  });
+  $('orderClose').onclick = close;
+  modal.addEventListener('click', e => { if (e.target === modal) close(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && !modal.classList.contains('hidden')) close(); });
+  $('sizes').addEventListener('click', e => { const z = e.target.dataset.size; if (z) { size = z; paintSizes(); err(''); } });
+  $('oQty').addEventListener('input', paintTotal);
+  // CEP: máscara + preenchimento automático do endereço (ViaCEP)
+  let cepSeq = 0, auto = {};
+  // Apaga só o que foi preenchido automaticamente (e não foi editado pela pessoa).
+  function clearAuto() { for (const id in auto) if ($(id).value === auto[id]) $(id).value = ''; auto = {}; }
+  async function lookupCep(cep) {
+    const seq = ++cepSeq, hint = $('cepHint');
+    clearAuto();
+    hint.textContent = 'Buscando…'; hint.className = 'text-xs mt-1 text-rose-100/60';
+    try {
+      const r = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+      const d = await r.json();
+      if (seq !== cepSeq) return; // CEP mudou enquanto buscava
+      if (d.erro) { hint.textContent = 'CEP não encontrado. Preencha à mão.'; hint.className = 'text-xs mt-1 text-rose-300'; return; }
+      const vals = { oRua: d.logradouro || '', oBairro: d.bairro || '', oCidade: d.localidade || '', oUf: d.uf || '' };
+      for (const id in vals) { if (!$(id).value) { $(id).value = vals[id]; auto[id] = vals[id]; } }
+      hint.textContent = d.logradouro ? '✓ Endereço encontrado' : '✓ Cidade encontrada. Complete a rua.';
+      hint.className = 'text-xs mt-1 text-olive-400';
+      $(d.logradouro ? 'oNum' : 'oRua').focus();
+    } catch (e) {
+      if (seq !== cepSeq) return;
+      hint.textContent = 'Busca indisponível. Preencha à mão.'; hint.className = 'text-xs mt-1 text-rose-300';
+    }
+  }
+  $('oCep').addEventListener('input', e => {
+    const d = e.target.value.replace(/\D/g, '').slice(0, 8);
+    e.target.value = d.length > 5 ? d.slice(0, 5) + '-' + d.slice(5) : d;
+    if (d.length === 8) lookupCep(d); else { cepSeq++; clearAuto(); $('cepHint').textContent = ''; }
+  });
+
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    const A = window.cartasAuth, v = id => $(id).value.trim();
+    const qty = Math.min(20, Math.max(1, parseInt($('oQty').value, 10) || 1));
+    const tel = v('oTel').replace(/\D/g, '');
+    if (!A || !A.user) return A && A.openLogin('Entre para finalizar o pedido.', () => {});
+    if (product.sized && !size) return err('Escolha o tamanho.');
+    if (v('oNome').length < 3) return err('Digite seu nome completo.');
+    if (tel.length < 10 || tel.length > 13) return err('Digite seu WhatsApp com DDD.');
+    if (v('oCep').replace(/\D/g, '').length !== 8) return err('Digite o CEP com 8 números.');
+    if (!v('oRua') || !v('oNum') || !v('oBairro') || !v('oCidade')) return err('Preencha rua, número, bairro e cidade.');
+    if (!/^[A-Za-z]{2}$/.test(v('oUf'))) return err('Digite a sigla do estado (ex.: SP).');
+
+    const order = {
+      produto: product.kind, nomeProduto: product.name, tamanho: product.sized ? size : '', quantidade: qty,
+      valorUnitario: product.price || null, total: product.price ? product.price * qty : null,
+      nome: v('oNome'), telefone: v('oTel'), cep: v('oCep'), rua: v('oRua'), numero: v('oNum'), complemento: v('oComp'),
+      bairro: v('oBairro'), cidade: v('oCidade'), uf: v('oUf').toUpperCase(), obs: v('oObs')
+    };
+
+    const btn = $('orderSubmit'); btn.disabled = true; err('');
+    // Abre a aba já no clique (senão o navegador bloqueia o pop-up depois de esperar o banco).
+    const win = window.open('', '_blank');
+    let code;
+    try { code = (await A.saveOrder(order)).slice(0, 6).toUpperCase(); }
+    catch (ex) {
+      if (win) win.close();
+      btn.disabled = false;
+      return err(ex && ex.code === 'permission-denied' ? 'Não foi possível registrar o pedido (sem permissão). Entre de novo e tente outra vez.' : 'Não foi possível registrar o pedido agora. Verifique sua internet e tente de novo.');
+    }
+
+    const endereco = `${order.rua}, ${order.numero}${order.complemento ? ' - ' + order.complemento : ''}, ${order.bairro}, ${order.cidade}/${order.uf}, CEP ${order.cep}`;
+    const valor = order.total ? `${brl(order.valorUnitario)} x ${qty} = ${brl(order.total)}` : 'a combinar';
+    const msg = [
+      `Olá! Fiz o pedido *#${code}* pelo site 🌙`,
+      '',
+      `*Produto:* ${order.produto} "${order.nomeProduto}"`,
+      order.tamanho ? `*Tamanho:* ${order.tamanho}` : null,
+      `*Quantidade:* ${qty}`,
+      `*Valor:* ${valor}`,
+      '',
+      `*Nome:* ${order.nome}`,
+      `*Endereço:* ${endereco}`,
+      order.obs ? `*Observações:* ${order.obs}` : null,
+      '',
+      'Pode me enviar o Pix para pagamento?'
+    ].filter(l => l !== null).join('\n');
+    const url = `https://wa.me/${WA}?text=${encodeURIComponent(msg)}`;
+
+    if (win) { win.opener = null; win.location.href = url; close(); toast('Pedido registrado! Abrindo o WhatsApp ✨'); }
+    else { // pop-up bloqueado: o pedido já está salvo, só falta abrir o WhatsApp
+      const link = $('orderWaLink'); link.href = url; link.classList.remove('hidden');
+      err('Pedido #' + code + ' registrado! Toque no botão verde para abrir o WhatsApp.');
+    }
+  });
+})();
+
+lucide.createIcons();
+document.getElementById('year').textContent = new Date().getFullYear();
+document.getElementById('menuBtn').onclick = () => document.getElementById('mobileMenu').classList.toggle('hidden');
+document.querySelectorAll('#mobileMenu a').forEach(a => a.onclick = () => document.getElementById('mobileMenu').classList.add('hidden'));
+
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.style.opacity = 1;
+  setTimeout(() => t.style.opacity = 0, 2500);
+}
+document.getElementById('contactForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const f = new FormData(e.target);
+  const text = `Olá! Meu nome é ${f.get('nome')}. ${f.get('msg')}`;
+  window.open(`https://wa.me/${WA}?text=${encodeURIComponent(text)}`, '_blank');
+  toast('Abrindo o WhatsApp ✨');
+  e.target.reset();
+});
+
+const io = new IntersectionObserver(es => es.forEach(x => x.isIntersecting && x.target.classList.add('show')), { threshold: .1 });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+<script type="module" src="site-auth.js"></script>
+</body>
+</html>
