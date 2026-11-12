@@ -106,7 +106,7 @@ export function watchOrders(cb, onError) {
 export function watchPrices(cb, onError) {
   return onSnapshot(doc(db, 'config', 'precos'), snap => cb(snap.exists() ? snap.data() : null), onError);
 }
-export const savePrices = ({ camiseta, caneca, leitura, leituraMinutos, avisoCamiseta = '', avisoCaneca = '', avisoLeitura = '' }) => setDoc(doc(db, 'config', 'precos'), { camiseta, caneca, leitura, leituraMinutos, avisoCamiseta, avisoCaneca, avisoLeitura, atualizadoEm: serverTimestamp() });
+export const savePrices = ({ camiseta, caneca, leitura, leituraMinutos, avisoCamiseta = '', avisoCaneca = '', avisoLeitura = '', produtos = {} }) => setDoc(doc(db, 'config', 'precos'), { camiseta, caneca, leitura, leituraMinutos, avisoCamiseta, avisoCaneca, avisoLeitura, produtos, atualizadoEm: serverTimestamp() });
 
 export const setOrderStatus = (id, status) => updateDoc(doc(db, 'pedidos', id), { status, atualizadoEm: serverTimestamp() });
 

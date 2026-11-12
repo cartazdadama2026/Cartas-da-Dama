@@ -303,11 +303,11 @@ tailwind.config = {
 <script>
 const WA = '5511950211868';
 const products = [
-  { icon: 'droplets', title: '🧼 Sabonetes Holísticos', text: 'Sabonetes artesanais com ervas, essências e sais, com apresentação delicada e personalização inspirada na identidade do Cartas da Dama.', tags: ['🌿 Ervas','✨ Essências','🧂 Sais','🌙 Acabamento místico e sofisticado'], img: 'sabonetes.jpg' },
-  { icon: 'flame', title: '🕯️ Vela da Intuição', text: 'Vela artesanal em pote de vidro, com rótulo exclusivo do Cartas da Dama, feita para iluminar as suas intenções, os seus rituais pessoais ou simplesmente trazer paz para o seu lar.', tags: ['🔮 Intuição','🕯️ Pote de vidro','✨ Detalhes dourados','🌙 Atmosfera mística'], img: 'velas.jpg' },
-  { icon: 'flower-2', title: '🌿 Sachês para Banho', text: 'Sachês sofisticados, personalizados com o slogan Cartas da Dama, preparados com combinações de ervas e flores para um ritual de autocuidado.', tags: ['🌿 Alecrim','🌿 Sálvia','💜 Alfazema','🌹 Rosas'], img: 'banhos.jpg' },
-  { icon: 'coffee', title: '🍵 Frutas & Ervas para Chás', text: 'Combinações selecionadas de frutas e ervas desidratadas, em embalagens sofisticadas e alinhadas à identidade visual do Cartas da Dama.', tags: ['🌿 Natural','• delicado','• encantador'], img: 'chas.jpg' },
-  { icon: 'wind', title: '🔥 Incensos', text: 'Incensos para criar uma atmosfera aromática especial, associados a momentos de limpeza simbólica, intenção, contemplação e energização.', tags: ['🌙 Momentos de conexão','🌿 Ambientes acolhedores','✨ Rituais pessoais'], img: 'incensos.jpg' },
+  { id: 'sabonete', icon: 'droplets', title: '🧼 Sabonetes Holísticos', text: 'Sabonetes artesanais com ervas, essências e sais, com apresentação delicada e personalização inspirada na identidade do Cartas da Dama.', tags: ['🌿 Ervas','✨ Essências','🧂 Sais','🌙 Acabamento místico e sofisticado'], img: 'sabonetes.jpg' },
+  { id: 'vela', icon: 'flame', title: '🕯️ Vela da Intuição', text: 'Vela artesanal em pote de vidro, com rótulo exclusivo do Cartas da Dama, feita para iluminar as suas intenções, os seus rituais pessoais ou simplesmente trazer paz para o seu lar.', tags: ['🔮 Intuição','🕯️ Pote de vidro','✨ Detalhes dourados','🌙 Atmosfera mística'], img: 'velas.jpg' },
+  { id: 'sache', icon: 'flower-2', title: '🌿 Sachês para Banho', text: 'Sachês sofisticados, personalizados com o slogan Cartas da Dama, preparados com combinações de ervas e flores para um ritual de autocuidado.', tags: ['🌿 Alecrim','🌿 Sálvia','💜 Alfazema','🌹 Rosas'], img: 'banhos.jpg' },
+  { id: 'cha', icon: 'coffee', title: '🍵 Frutas & Ervas para Chás', text: 'Combinações selecionadas de frutas e ervas desidratadas, em embalagens sofisticadas e alinhadas à identidade visual do Cartas da Dama.', tags: ['🌿 Natural','• delicado','• encantador'], img: 'chas.jpg' },
+  { id: 'incenso', icon: 'wind', title: '🔥 Incensos', text: 'Incensos para criar uma atmosfera aromática especial, associados a momentos de limpeza simbólica, intenção, contemplação e energização.', tags: ['🌙 Momentos de conexão','🌿 Ambientes acolhedores','✨ Rituais pessoais'], img: 'incensos.jpg' },
 ];
 
 const grid = document.getElementById('productGrid');
@@ -324,6 +324,7 @@ products.forEach(p => {
     <div class="p-5 flex flex-col flex-1">
       <h3 class="font-serif text-2xl text-gold-400">${p.title}</h3>
       <p class="mt-3 text-base leading-relaxed text-rose-100/90 flex-1">${p.text}</p>
+      <p class="js-pprice hidden mt-3 font-serif text-2xl text-gold-400" data-id="${p.id}"></p>
       <ul class="mt-4 flex flex-wrap gap-2">${p.tags.map(t => `<li class="text-xs border border-olive-400/50 text-olive-400 rounded-full px-3 py-1">${t}</li>`).join('')}</ul>
       <a href="https://wa.me/${WA}?text=${encodeURIComponent('Olá! Tenho interesse em: ' + p.title.replace(/^\S+\s/, ''))}" target="_blank" rel="noopener"
          class="mt-5 text-center bg-gold-400 text-wine-950 font-bold py-2.5 rounded-full hover:bg-gold-300 transition">Quero saber mais</a>
@@ -438,6 +439,12 @@ window.setPrices = p => {
     const k = el.dataset.kind;
     el.textContent = msgs[k] || brl(k === 'caneca' ? MUG_PRICE : SHIRT_PRICE);
     el.classList.toggle('text-3xl', !msgs[k]); el.classList.toggle('text-xl', !!msgs[k]); el.classList.toggle('text-center', !!msgs[k]);
+  });
+  const prods = (p && p.produtos) || {};
+  document.querySelectorAll('.js-pprice').forEach(el => {
+    const d = prods[el.dataset.id] || {};
+    const txt = (d.aviso || '').toString().trim() || (d.preco > 0 ? brl(Number(d.preco)) : '');
+    el.textContent = txt; el.classList.toggle('hidden', !txt);
   });
   document.querySelectorAll('.js-buy').forEach(b => {
     const off = !!msgs[b.dataset.kind];

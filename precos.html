@@ -44,6 +44,36 @@
         <span class="text-sm text-rose-100/80">Leitura de Cartas e Tarô — duração (minutos)</span>
         <input id="leituraMinutos" inputmode="numeric" placeholder="60" class="mt-1 w-full rounded-lg bg-[#1f070e] border border-[#d9b45f]/30 px-3 py-2 text-lg">
       </label>
+      <hr class="border-[#d9b45f]/20">
+      <div>
+        <p class="font-bold text-[#d9b45f]">Outros produtos (sabonetes, velas, sachês, chás e incensos)</p>
+        <p class="text-xs text-rose-100/60 mt-1">O preço aparece no cartão do produto. Se escrever uma mensagem (ex.: “Sob encomenda”), ela aparece no lugar do preço. Deixe os dois em branco para não mostrar nada.</p>
+      </div>
+      <div class="grid grid-cols-5 gap-2 items-start">
+        <span class="col-span-5 text-sm text-rose-100/80">Sabonetes Holísticos</span>
+        <input id="pp_sabonete" inputmode="decimal" placeholder="Preço (ex.: 15,00)" class="col-span-2 rounded-lg bg-[#1f070e] border border-[#d9b45f]/30 px-3 py-2">
+        <input id="pa_sabonete" maxlength="80" placeholder="Mensagem (opcional)" class="col-span-3 rounded-lg bg-[#1f070e] border border-[#d9b45f]/20 px-3 py-2 text-sm placeholder:text-rose-100/30">
+      </div>
+      <div class="grid grid-cols-5 gap-2 items-start">
+        <span class="col-span-5 text-sm text-rose-100/80">Vela da Intuição</span>
+        <input id="pp_vela" inputmode="decimal" placeholder="Preço (ex.: 15,00)" class="col-span-2 rounded-lg bg-[#1f070e] border border-[#d9b45f]/30 px-3 py-2">
+        <input id="pa_vela" maxlength="80" placeholder="Mensagem (opcional)" class="col-span-3 rounded-lg bg-[#1f070e] border border-[#d9b45f]/20 px-3 py-2 text-sm placeholder:text-rose-100/30">
+      </div>
+      <div class="grid grid-cols-5 gap-2 items-start">
+        <span class="col-span-5 text-sm text-rose-100/80">Sachês para Banho</span>
+        <input id="pp_sache" inputmode="decimal" placeholder="Preço (ex.: 15,00)" class="col-span-2 rounded-lg bg-[#1f070e] border border-[#d9b45f]/30 px-3 py-2">
+        <input id="pa_sache" maxlength="80" placeholder="Mensagem (opcional)" class="col-span-3 rounded-lg bg-[#1f070e] border border-[#d9b45f]/20 px-3 py-2 text-sm placeholder:text-rose-100/30">
+      </div>
+      <div class="grid grid-cols-5 gap-2 items-start">
+        <span class="col-span-5 text-sm text-rose-100/80">Frutas & Ervas para Chás</span>
+        <input id="pp_cha" inputmode="decimal" placeholder="Preço (ex.: 15,00)" class="col-span-2 rounded-lg bg-[#1f070e] border border-[#d9b45f]/30 px-3 py-2">
+        <input id="pa_cha" maxlength="80" placeholder="Mensagem (opcional)" class="col-span-3 rounded-lg bg-[#1f070e] border border-[#d9b45f]/20 px-3 py-2 text-sm placeholder:text-rose-100/30">
+      </div>
+      <div class="grid grid-cols-5 gap-2 items-start">
+        <span class="col-span-5 text-sm text-rose-100/80">Incensos</span>
+        <input id="pp_incenso" inputmode="decimal" placeholder="Preço (ex.: 15,00)" class="col-span-2 rounded-lg bg-[#1f070e] border border-[#d9b45f]/30 px-3 py-2">
+        <input id="pa_incenso" maxlength="80" placeholder="Mensagem (opcional)" class="col-span-3 rounded-lg bg-[#1f070e] border border-[#d9b45f]/20 px-3 py-2 text-sm placeholder:text-rose-100/30">
+      </div>
       <button id="submit" class="bg-[#d9b45f] text-[#1f070e] font-bold px-6 py-2 rounded-full hover:bg-[#ecd49a] disabled:opacity-60">Salvar preços</button>
       <span id="msg" class="ml-3 text-sm"></span>
     </form>
@@ -58,6 +88,7 @@ const msg = (t, ok = true) => { $('msg').textContent = t; $('msg').className = '
 const fmt = v => Number(v).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 const parse = t => { const n = Number(String(t).trim().replace(/\./g, '').replace(',', '.')); return Number.isFinite(n) ? Math.round(n * 100) / 100 : NaN; };
 let loaded = false;
+const PROD_IDS = ['sabonete', 'vela', 'sache', 'cha', 'incenso'];
 
 onUser(state => {
   if (!configured) { $('gate').textContent = 'O Firebase ainda não foi configurado (veja FIREBASE-SETUP.md).'; return; }
@@ -71,6 +102,8 @@ onUser(state => {
     $('caneca').value = fmt(p && p.caneca ? p.caneca : 35);
     $('leitura').value = fmt(p && p.leitura ? p.leitura : 142);
     $('leituraMinutos').value = p && p.leituraMinutos ? p.leituraMinutos : 60;
+    const pr = (p && p.produtos) || {};
+    PROD_IDS.forEach(k => { const d = pr[k] || {}; $('pp_' + k).value = d.preco > 0 ? fmt(d.preco) : ''; $('pa_' + k).value = d.aviso || ''; });
     $('avisoCamiseta').value = (p && p.avisoCamiseta) || ''; $('avisoCaneca').value = (p && p.avisoCaneca) || ''; $('avisoLeitura').value = (p && p.avisoLeitura) || '';
   }, err => { $('gate').classList.remove('hidden'); $('gate').textContent = 'Erro ao carregar os preços: ' + err.message; });
 });
@@ -81,9 +114,15 @@ $('form').addEventListener('submit', async e => {
   const leituraMinutos = Math.round(Number(String($('leituraMinutos').value).replace(',', '.')));
   if (![camiseta, caneca, leitura].every(v => v > 0 && v <= 10000)) return msg('Digite valores válidos, maiores que zero (ex.: 52,00).', false);
   if (!(leituraMinutos >= 5 && leituraMinutos <= 600)) return msg('A duração da leitura deve ficar entre 5 e 600 minutos.', false);
+  const produtos = {};
+  for (const k of PROD_IDS) {
+    const t = $('pp_' + k).value.trim(), preco = t ? parse(t) : 0;
+    if (!(preco >= 0 && preco <= 10000)) return msg('Preço inválido em um dos produtos (ex.: 15,00).', false);
+    produtos[k] = { preco, aviso: $('pa_' + k).value.trim() };
+  }
   $('submit').disabled = true; msg('Salvando…');
   try {
-    await savePrices({ camiseta, caneca, leitura, leituraMinutos, avisoCamiseta: $('avisoCamiseta').value.trim(), avisoCaneca: $('avisoCaneca').value.trim(), avisoLeitura: $('avisoLeitura').value.trim() });
+    await savePrices({ camiseta, caneca, leitura, leituraMinutos, avisoCamiseta: $('avisoCamiseta').value.trim(), avisoCaneca: $('avisoCaneca').value.trim(), avisoLeitura: $('avisoLeitura').value.trim(), produtos });
     $('camiseta').value = fmt(camiseta); $('caneca').value = fmt(caneca); $('leitura').value = fmt(leitura); $('leituraMinutos').value = leituraMinutos;
     msg('Preços salvos ✓ Já valem no site.');
   } catch (err) {
