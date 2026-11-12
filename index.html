@@ -178,7 +178,7 @@ tailwind.config = {
   <div class="max-w-6xl mx-auto">
     <h2 class="font-serif text-4xl md:text-5xl text-gold-400 text-center reveal">Palavras de quem já viveu</h2>
     <p class="text-center text-rose-100/70 mt-3">Conversas reais de quem já viveu a experiência.</p>
-    <div class="text-center mt-5"><a id="addTestimonialBtn" href="admin.html" class="hidden inline-flex items-center gap-2 bg-gold-400 text-wine-950 font-bold px-6 py-2.5 rounded-full hover:bg-gold-300 transition"><i data-lucide="plus" class="w-4 h-4"></i> Adicionar depoimento</a></div>
+    <div class="text-center mt-5"><a id="addTestimonialBtn" href="depoimentos/" class="hidden inline-flex items-center gap-2 bg-gold-400 text-wine-950 font-bold px-6 py-2.5 rounded-full hover:bg-gold-300 transition"><i data-lucide="plus" class="w-4 h-4"></i> Adicionar depoimento</a></div>
     <div id="testimonials" class="mt-12 columns-1 sm:columns-2 lg:columns-3 gap-6"></div>
     <p id="noTestimonials" class="hidden text-center text-rose-100/50 mt-8">Em breve, novos depoimentos por aqui. 🌿</p>
   </div>
@@ -242,10 +242,10 @@ tailwind.config = {
     <span id="userMenuRole" class="inline-block mt-2 text-[11px] uppercase tracking-widest font-bold text-olive-400 border border-olive-400/40 rounded-full px-3 py-0.5"></span>
   </div>
   <nav class="p-2">
-    <a href="pedidos.html" class="js-admin-only hidden flex items-center gap-3 px-3 py-2.5 rounded-xl text-rose-100/90 hover:bg-gold-400/10 hover:text-gold-300 transition"><span class="w-8 h-8 rounded-lg bg-gold-400/10 flex items-center justify-center">🛍️</span><span class="text-sm">Pedidos</span></a>
-    <a href="precos.html" class="js-admin-only hidden flex items-center gap-3 px-3 py-2.5 rounded-xl text-rose-100/90 hover:bg-gold-400/10 hover:text-gold-300 transition"><span class="w-8 h-8 rounded-lg bg-gold-400/10 flex items-center justify-center">💲</span><span class="text-sm">Preços</span></a>
-    <a href="clientes.html" class="js-admin-only hidden flex items-center gap-3 px-3 py-2.5 rounded-xl text-rose-100/90 hover:bg-gold-400/10 hover:text-gold-300 transition"><span class="w-8 h-8 rounded-lg bg-gold-400/10 flex items-center justify-center">👥</span><span class="text-sm">Painel de clientes</span></a>
-    <a href="admin.html" class="js-admin-only hidden flex items-center gap-3 px-3 py-2.5 rounded-xl text-rose-100/90 hover:bg-gold-400/10 hover:text-gold-300 transition"><span class="w-8 h-8 rounded-lg bg-gold-400/10 flex items-center justify-center">📝</span><span class="text-sm">Painel de depoimentos</span></a>
+    <a href="pedidos/" class="js-admin-only hidden flex items-center gap-3 px-3 py-2.5 rounded-xl text-rose-100/90 hover:bg-gold-400/10 hover:text-gold-300 transition"><span class="w-8 h-8 rounded-lg bg-gold-400/10 flex items-center justify-center">🛍️</span><span class="text-sm">Pedidos</span></a>
+    <a href="precos/" class="js-admin-only hidden flex items-center gap-3 px-3 py-2.5 rounded-xl text-rose-100/90 hover:bg-gold-400/10 hover:text-gold-300 transition"><span class="w-8 h-8 rounded-lg bg-gold-400/10 flex items-center justify-center">💲</span><span class="text-sm">Preços</span></a>
+    <a href="clientes/" class="js-admin-only hidden flex items-center gap-3 px-3 py-2.5 rounded-xl text-rose-100/90 hover:bg-gold-400/10 hover:text-gold-300 transition"><span class="w-8 h-8 rounded-lg bg-gold-400/10 flex items-center justify-center">👥</span><span class="text-sm">Painel de clientes</span></a>
+    <a href="depoimentos/" class="js-admin-only hidden flex items-center gap-3 px-3 py-2.5 rounded-xl text-rose-100/90 hover:bg-gold-400/10 hover:text-gold-300 transition"><span class="w-8 h-8 rounded-lg bg-gold-400/10 flex items-center justify-center">📝</span><span class="text-sm">Painel de depoimentos</span></a>
   </nav>
   <div class="p-3 pt-1">
     <button id="logoutBtn" type="button" class="w-full flex items-center justify-center gap-2 border border-gold-400/40 text-rose-100/80 rounded-full py-2 text-sm hover:bg-gold-400/10 hover:text-gold-300 transition">🚪 Sair</button>
@@ -344,7 +344,7 @@ products.forEach(p => {
 
 
 // CAMISETAS — 6 estampas
-let SHIRT_PRICE = 52; // valores padrão; o preço real vem do banco (editável em precos.html)
+let SHIRT_PRICE = 52; // valores padrão; o preço real vem do banco (editável em precos/)
 const SIZES = ['P', 'M', 'G', 'GG'];
 const brl = v => v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 const shirts = [

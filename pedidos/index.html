@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Pedidos — painel do administrador · Cartas da Dama</title>
+<script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-[#1f070e] text-rose-50 min-h-screen p-5">
+<main class="max-w-4xl mx-auto">
+  <nav class="mb-8 pb-5 border-b border-[#d9b45f]/20">
+  <div class="flex flex-nowrap items-center gap-1.5 text-[13px] whitespace-nowrap overflow-x-auto pb-1 [scrollbar-width:none]">
+    <a href="../" class="group shrink-0 inline-flex items-center gap-1.5 pl-1 pr-3 py-1 rounded-full bg-gradient-to-r from-[#531326] to-[#3a0d1a] border border-[#d9b45f]/40 text-[#ecd49a] font-semibold text-sm shadow-lg shadow-black/40 hover:border-[#d9b45f] hover:from-[#6e1a33] transition"><span class="w-6 h-6 rounded-full bg-[#d9b45f] text-[#1f070e] flex items-center justify-center group-hover:-translate-x-0.5 transition">←</span>Voltar</a>
+    <span aria-current="page" class="shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#d9b45f] text-[#1f070e] font-bold shadow-lg shadow-[#d9b45f]/20"><span>🛍️</span>Pedidos</span>
+    <a href="../precos/" class="shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-[#d9b45f]/25 text-rose-100/80 hover:border-[#d9b45f]/70 hover:bg-[#d9b45f]/10 hover:text-[#ecd49a] transition"><span>💲</span>Preços</a>
+    <a href="../clientes/" class="shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-[#d9b45f]/25 text-rose-100/80 hover:border-[#d9b45f]/70 hover:bg-[#d9b45f]/10 hover:text-[#ecd49a] transition"><span>👥</span>Clientes</a>
+    <a href="../depoimentos/" class="shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-[#d9b45f]/25 text-rose-100/80 hover:border-[#d9b45f]/70 hover:bg-[#d9b45f]/10 hover:text-[#ecd49a] transition"><span>📝</span>Depoimentos</a>
+  </div>
+  </nav>
+  <h1 class="text-2xl font-bold text-[#d9b45f]">Pedidos</h1>
+  <p id="gate" class="mt-6 text-rose-100/70">Verificando acesso…</p>
+
+  <section id="panel" class="hidden">
+    <p class="text-sm text-rose-100/60 mt-1">Todos os pedidos feitos no site. Novos pedidos aparecem aqui sozinhos. Só marque como <strong>Pago</strong> depois de ver o dinheiro na sua conta.</p>
+
+    <div id="stats" class="mt-5 grid grid-cols-2 sm:grid-cols-4 gap-3"></div>
+
+    <div id="tabs" class="mt-6 flex flex-wrap gap-2 text-sm"></div>
+    <p id="msg" class="mt-3 text-sm min-h-[1.25rem]"></p>
+    <ul id="list" class="mt-2 space-y-4"></ul>
+  </section>
+</main>
+
+<script type="module">
+import { configured, onUser, watchOrders, setOrderStatus, ORDER_STATUS, esc } from '../firebase.js';
+const $ = id => document.getElementById(id);
+const brl = v => Number(v).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+const msg = (t, ok = true) => { $('msg').textContent = t; $('msg').className = 'mt-3 text-sm min-h-[1.25rem] ' + (ok ? 'text-emerald-400' : 'text-red-400'); };
+const WA_SITE = '5511950211868';
+const BADGE = {
+  aguardando_pagamento: 'border-amber-400 text-amber-300',
+  pago: 'border-emerald-400 text-emerald-300',
+  enviado: 'border-sky-400 text-sky-300',
+  cancelado: 'border-rose-400/60 text-rose-300'
+};
+// Botões possíveis em cada status: [novo status, rótulo, estilo]
+const ACTIONS = {
+  aguardando_pagamento: [['pago', 'Marcar como pago', 'p'], ['cancelado', 'Cancelar', 's']],
+  pago: [['enviado', 'Marcar como enviado', 'p'], ['aguardando_pagamento', 'Voltar p/ aguardando', 's']],
+  enviado: [['pago', 'Voltar para pago', 's']],
+  cancelado: [['aguardando_pagamento', 'Reabrir', 's']]
+};
+
+let orders = [], filter = 'todos';
+const code = o => o.id.slice(0, 6).toUpperCase();
+const when = o => o.criadoEm && o.criadoEm.toDate ? o.criadoEm.toDate().toLocaleString('pt-BR', { dateStyle: 'short', timeStyle: 'short' }) : 'agora';
+const phone = o => { const d = String(o.telefone || '').replace(/\D/g, ''); return d.length <= 11 ? '55' + d : d; };
+const item = o => `${o.produto} "${o.nomeProduto}"${o.tamanho ? ' · Tam. ' + o.tamanho : ''} × ${o.quantidade}`;
+
+// Mensagem pronta para o WhatsApp do cliente, conforme o status
+function waText(o) {
+  const nome = (o.nome || '').split(' ')[0];
+  const base = `Olá, ${nome}! Aqui é da Cartas da Dama 🌙 Sobre o seu pedido #${code(o)} (${item(o)}${o.total ? ', ' + brl(o.total) : ''}).`;
+  if (o.status === 'pago') return base + ' Recebemos o seu pagamento, obrigada! Seu produto está sendo separado.';
+  if (o.status === 'enviado') return base + ' Ele já foi enviado! 📦';
+  if (o.status === 'cancelado') return base + ' O pedido foi cancelado. Qualquer dúvida, é só chamar.';
+  return base + ' Segue o Pix para pagamento:';
+}
+
+function render() {
+  const sum = s => orders.filter(o => o.status === s).length;
+  const faturado = orders.filter(o => o.status === 'pago' || o.status === 'enviado').reduce((t, o) => t + (o.total || 0), 0);
+  $('stats').innerHTML = [
+    ['Aguardando pagamento', sum('aguardando_pagamento'), 'text-amber-300'],
+    ['Pagos (a enviar)', sum('pago'), 'text-emerald-300'],
+    ['Enviados', sum('enviado'), 'text-sky-300'],
+    ['Recebido (pago + enviado)', brl(faturado), 'text-[#d9b45f]']
+  ].map(([t, v, c]) => `<div class="bg-[#3a0d1a] border border-[#d9b45f]/20 rounded-xl p-3"><p class="text-xs text-rose-100/60">${t}</p><p class="text-xl font-bold ${c}">${v}</p></div>`).join('');
+
+  const tabs = [['todos', 'Todos (' + orders.length + ')'], ...Object.entries(ORDER_STATUS).map(([k, l]) => [k, l + ' (' + sum(k) + ')'])];
+  $('tabs').innerHTML = tabs.map(([k, l]) => `<button data-tab="${k}" class="px-4 py-1.5 rounded-full border ${filter === k ? 'bg-[#d9b45f] text-[#1f070e] font-bold border-[#d9b45f]' : 'border-[#d9b45f]/40 text-rose-100/80 hover:bg-[#d9b45f]/10'}">${l}</button>`).join('');
+
+  const rows = orders.filter(o => filter === 'todos' || o.status === filter);
+  $('list').innerHTML = rows.length ? '' : '<li class="text-rose-100/50">Nenhum pedido aqui.</li>';
+  rows.forEach(o => {
+    const li = document.createElement('li');
+    li.className = 'bg-[#3a0d1a] border border-[#d9b45f]/20 rounded-2xl p-4';
+    const end = `${o.rua}, ${o.numero}${o.complemento ? ' - ' + o.complemento : ''} — ${o.bairro}, ${o.cidade}/${o.uf} — CEP ${o.cep}`;
+    li.innerHTML = `
+      <div class="flex flex-wrap items-center gap-3">
+        <span class="font-bold text-[#d9b45f]">#${esc(code(o))}</span>
+        <span class="text-xs text-rose-100/50">${esc(when(o))}</span>
+        <span class="ml-auto text-xs px-3 py-1 rounded-full border ${BADGE[o.status] || ''}">${esc(ORDER_STATUS[o.status] || o.status)}</span>
+      </div>
+      <p class="mt-2 font-semibold">${esc(item(o))}</p>
+      <p class="text-sm text-[#d9b45f]">${o.total ? brl(o.total) + (o.quantidade > 1 ? ' (' + brl(o.valorUnitario) + ' cada)' : '') : 'Valor a combinar'}</p>
+      <div class="mt-3 text-sm text-rose-100/80 space-y-0.5">
+        <p><strong>${esc(o.nome)}</strong> · ${esc(o.telefone)} <span class="text-rose-100/40">(${esc(o.emailConta)})</span></p>
+        <p>${esc(end)}</p>
+        ${o.obs ? `<p class="text-rose-100/60">Obs.: ${esc(o.obs)}</p>` : ''}
+      </div>
+      <div class="mt-4 flex flex-wrap gap-2">
+        <a target="_blank" rel="noopener" href="https://wa.me/${phone(o)}?text=${encodeURIComponent(waText(o))}" class="px-4 py-1.5 rounded-full bg-emerald-500 text-white text-sm font-bold hover:bg-emerald-400">WhatsApp do cliente</a>
+        ${(ACTIONS[o.status] || []).map(([st, label, kind]) => `<button data-id="${esc(o.id)}" data-st="${st}" class="px-4 py-1.5 rounded-full text-sm ${kind === 'p' ? 'bg-[#d9b45f] text-[#1f070e] font-bold hover:bg-[#ecd49a]' : 'border border-rose-100/30 text-rose-100/80 hover:bg-white/5'}">${label}</button>`).join('')}
+      </div>`;
+    $('list').appendChild(li);
+  });
+}
+
+onUser(state => {
+  if (!configured) { $('gate').textContent = 'O Firebase ainda não foi configurado (veja FIREBASE-SETUP.md).'; return; }
+  if (!state) { $('gate').innerHTML = 'Você precisa entrar para acessar. <a class="text-[#d9b45f] underline" href="../">Ir para o site e clicar em 🧙‍♀️ Entrar</a>.'; return; }
+  if (state.profile.role !== 'admin') { $('gate').textContent = 'Acesso restrito a administradores.'; return; }
+  $('gate').classList.add('hidden'); $('panel').classList.remove('hidden');
+  watchOrders(list => { orders = list; render(); },
+    err => { $('gate').classList.remove('hidden'); $('gate').textContent = 'Erro ao carregar os pedidos: ' + err.message + ' (confira se as regras do Firestore foram publicadas).'; });
+});
+
+$('tabs').addEventListener('click', e => { const k = e.target.dataset.tab; if (k) { filter = k; render(); } });
+$('list').addEventListener('click', async e => {
+  const b = e.target.closest('button[data-id]'); if (!b) return;
+  const o = orders.find(x => x.id === b.dataset.id), st = b.dataset.st;
+  if (st === 'cancelado' && !confirm(`Cancelar o pedido #${code(o)} de ${o.nome}?`)) return;
+  b.disabled = true;
+  try { await setOrderStatus(o.id, st); msg(`Pedido #${code(o)}: ${ORDER_STATUS[st]} ✓`); }
+  catch (err) { b.disabled = false; msg('Não foi possível alterar: ' + err.message, false); }
+});
+</script>
+</body>
+</html>
