@@ -126,7 +126,7 @@ tailwind.config = {
       <h2 class="font-serif text-4xl md:text-5xl text-gold-400">🌿 Produtos Cartas da Dama</h2>
       <p class="mt-3 text-rose-100/80 max-w-2xl mx-auto">Uma coleção criada com inspiração na natureza, nas ervas, nas flores e no universo místico.</p>
     </div>
-    <div id="productGrid" class="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 max-w-5xl mx-auto"></div>
+    <div id="productGrid" class="mt-14 grid gap-7 max-w-5xl mx-auto"></div>
   </div>
 </section>
 
@@ -311,9 +311,19 @@ const products = [
 ];
 
 const grid = document.getElementById('productGrid');
+// Bloco único (igual ao das camisetas e canecas) com os produtos artesanais dentro
+const prodBlock = document.createElement('article');
+prodBlock.className = 'card rounded-3xl p-6 md:p-10 reveal';
+prodBlock.innerHTML = `
+  <h3 class="font-serif text-3xl md:text-4xl text-gold-400 text-center">🕯️ Linha Artesanal Cartas da Dama</h3>
+  <p class="mt-3 text-center text-rose-100/80 max-w-2xl mx-auto">Sabonetes, velas, sachês, chás e incensos feitos com ervas, flores e muito carinho, com a identidade visual do Cartas da Dama.</p>
+  <ul class="mt-4 flex flex-wrap gap-2 justify-center">${['🧼 Sabonetes','🕯️ Velas','🌿 Sachês','🍵 Chás','🔥 Incensos'].map(t => `<li class="text-xs border border-olive-400/50 text-olive-400 rounded-full px-3 py-1">${t}</li>`).join('')}</ul>
+  <div id="prodInner" class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3"></div>`;
+grid.appendChild(prodBlock);
+const prodInner = prodBlock.querySelector('#prodInner');
 products.forEach(p => {
   const el = document.createElement('article');
-  el.className = 'card rounded-3xl overflow-hidden flex flex-col reveal';
+  el.className = 'rounded-3xl overflow-hidden flex flex-col border border-gold-400/25 bg-wine-950/50 shadow-[0_14px_30px_rgba(0,0,0,.45)]';
   // Para usar fotos reais, coloque os arquivos em images/ com os nomes acima.
   el.innerHTML = `
     <div class="aspect-[4/3] bg-gradient-to-br from-wine-700 via-wine-800 to-olive-600/60 flex items-center justify-center relative overflow-hidden">
@@ -329,7 +339,7 @@ products.forEach(p => {
       <a href="https://wa.me/${WA}?text=${encodeURIComponent('Olá! Tenho interesse em: ' + p.title.replace(/^\S+\s/, ''))}" target="_blank" rel="noopener"
          class="mt-5 text-center bg-gold-400 text-wine-950 font-bold py-2.5 rounded-full hover:bg-gold-300 transition">Quero saber mais</a>
     </div>`;
-  grid.appendChild(el);
+  prodInner.appendChild(el);
 });
 
 
