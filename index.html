@@ -621,6 +621,25 @@ document.getElementById('contactForm').addEventListener('submit', e => {
   e.target.reset();
 });
 
+
+// Endereço acompanha a parte da tela (ex.: cartasdadama.com.br/#produtos) e mostra #pedido no pagamento
+(function urlSections() {
+  if (location.pathname.endsWith('/index.html')) history.replaceState(null, '', location.pathname.replace(/index\.html$/, '') + location.search + location.hash);
+  const ids = ['inicio', 'leituras', 'produtos', 'apresentacao', 'depoimentos', 'contato'];
+  const setHash = h => { if (location.hash !== h) history.replaceState(null, '', location.pathname + location.search + h); };
+  const spy = new IntersectionObserver(es => es.forEach(x => {
+    if (!x.isIntersecting || (document.getElementById('orderModal') && !document.getElementById('orderModal').classList.contains('hidden'))) return;
+    setHash(x.target.id === 'inicio' ? location.pathname + location.search : '#' + x.target.id);
+  }), { rootMargin: '-45% 0px -50% 0px' });
+  ids.forEach(id => { const el = document.getElementById(id); if (el) spy.observe(el); });
+  // modal de pedido aberto = "#pedido"
+  const om = document.getElementById('orderModal');
+  if (om) new MutationObserver(() => {
+    if (!om.classList.contains('hidden')) setHash('#pedido');
+    else if (location.hash === '#pedido') history.replaceState(null, '', location.pathname + location.search);
+  }).observe(om, { attributes: true, attributeFilter: ['class'] });
+})();
+
 const io = new IntersectionObserver(es => es.forEach(x => x.isIntersecting && x.target.classList.add('show')), { threshold: .1 });
 document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 </script>

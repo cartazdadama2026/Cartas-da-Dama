@@ -11,7 +11,7 @@
 <main class="max-w-3xl mx-auto">
   <nav class="mb-8 pb-5 border-b border-[#d9b45f]/20">
   <div class="flex flex-nowrap items-center gap-1.5 text-[13px] whitespace-nowrap overflow-x-auto pb-1 [scrollbar-width:none]">
-    <a href="index.html#depoimentos" class="group shrink-0 inline-flex items-center gap-1.5 pl-1 pr-3 py-1 rounded-full bg-gradient-to-r from-[#531326] to-[#3a0d1a] border border-[#d9b45f]/40 text-[#ecd49a] font-semibold text-sm shadow-lg shadow-black/40 hover:border-[#d9b45f] hover:from-[#6e1a33] transition"><span class="w-6 h-6 rounded-full bg-[#d9b45f] text-[#1f070e] flex items-center justify-center group-hover:-translate-x-0.5 transition">←</span>Voltar</a>
+    <a href="./#depoimentos" class="group shrink-0 inline-flex items-center gap-1.5 pl-1 pr-3 py-1 rounded-full bg-gradient-to-r from-[#531326] to-[#3a0d1a] border border-[#d9b45f]/40 text-[#ecd49a] font-semibold text-sm shadow-lg shadow-black/40 hover:border-[#d9b45f] hover:from-[#6e1a33] transition"><span class="w-6 h-6 rounded-full bg-[#d9b45f] text-[#1f070e] flex items-center justify-center group-hover:-translate-x-0.5 transition">←</span>Voltar</a>
     <a href="pedidos.html" class="shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-[#d9b45f]/25 text-rose-100/80 hover:border-[#d9b45f]/70 hover:bg-[#d9b45f]/10 hover:text-[#ecd49a] transition"><span>🛍️</span>Pedidos</a>
     <a href="precos.html" class="shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-[#d9b45f]/25 text-rose-100/80 hover:border-[#d9b45f]/70 hover:bg-[#d9b45f]/10 hover:text-[#ecd49a] transition"><span>💲</span>Preços</a>
     <a href="clientes.html" class="shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-[#d9b45f]/25 text-rose-100/80 hover:border-[#d9b45f]/70 hover:bg-[#d9b45f]/10 hover:text-[#ecd49a] transition"><span>👥</span>Clientes</a>
@@ -95,7 +95,7 @@ async function start() {
 
 onUser(state => {
   if (!configured) { $('gate').textContent = 'O Firebase ainda não foi configurado (veja FIREBASE-SETUP.md).'; return; }
-  if (!state) { $('gate').innerHTML = 'Você precisa entrar para acessar. <a class="text-[#d9b45f] underline" href="index.html">Ir para o site e clicar em 🧙‍♀️ Entrar</a>.'; return; }
+  if (!state) { $('gate').innerHTML = 'Você precisa entrar para acessar. <a class="text-[#d9b45f] underline" href="./">Ir para o site e clicar em 🧙‍♀️ Entrar</a>.'; return; }
   if (state.profile.role !== 'admin') { $('gate').textContent = 'Acesso restrito a administradores.'; return; }
   $('gate').classList.add('hidden'); $('panel').classList.remove('hidden'); start();
 });
